@@ -3,3 +3,4 @@ keylogfile.txt
 node_modules/
 logs/
 *.log
+*.class
