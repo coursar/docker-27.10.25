@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app
+  namespace: appns
+spec:
+  containers:
+  - name: app
+    image: registry.local:5000/library/app-boot:1.0.0
+    resources:
+      requests:
+        memory: "128Mi" # Mi, M
+        cpu: "500m" # m milli-cpu
+      limits:
+        memory: "256Mi" # Mi, M
+        cpu: "500m" # m milli-cpu
+    ports:
+      - containerPort: 80
+
