@@ -1,0 +1,26 @@
+services:
+  app:
+    image: registry.local:5000/library/app-boot:3.0.0
+    build:
+      context: appv3
+      dockerfile: Dockerfile.slim
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./application.properties:/app/config/application.properties:ro
+  db:
+    image: postgres:18.0-alpine3.22
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d db"]
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+    environment:
+      - POSTGRES_DB=db
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=pass
+    command: ["postgres", "-c", "log_statement=all"]

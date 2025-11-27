@@ -1,0 +1,74 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  namespace: appns
+spec:
+  selector:
+    matchLabels:
+      app: app
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      name: app
+      labels:
+        app: app
+    spec:
+      #hostAliases:
+      #- ip: "192.168.56.11"
+      #  hostnames:
+      #  - "db.local"
+      containers:
+      - name: app
+        image: registry.local:5000/library/app-boot:3.0.0
+        resources:
+          requests:
+            memory: "128Mi" # Mi, M
+            cpu: "500m" # m milli-cpu
+          limits:
+            memory: "256Mi" # Mi, M
+            cpu: "500m" # m milli-cpu
+        ports:
+          - containerPort: 8080
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/application.properties
+          subPath: application.properties
+          readOnly: true
+        - name: secret-volume
+          mountPath: /app/configtree/spring.datasource.url
+          subPath: spring.datasource.url
+          readOnly: true
+      volumes:
+      - name: config-volume
+        configMap:
+          name: app-config
+          items:
+          - key: application.properties
+            path: application.properties
+      - name: secret-volume
+        secret:
+          secretName: db-secret
+          items:
+          - key: spring.datasource.url
+            path: spring.datasource.url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+  namespace: appns
+spec:
+  type: ClusterIP
+  selector:
+    app: app
+  ports:
+  - port: 8080
+    targetPort: 8080
+  
