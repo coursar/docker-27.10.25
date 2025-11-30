@@ -5,7 +5,7 @@ WORKDIR /opt/build
 COPY pom.xml .
 RUN mvn --no-transfer-progress --batch-mode dependency:go-offline
 COPY src src
-RUN mvn -B package
+RUN mvn --offline -Dmaven.test.skip=true package
 
 FROM eclipse-temurin:21.0.9_10-jdk-noble@sha256:4ae3c996117de6f25f8544cc4b173d7ca1e4de49b4a535f8dd50b9cd38ee4804 AS health
 WORKDIR /opt/build

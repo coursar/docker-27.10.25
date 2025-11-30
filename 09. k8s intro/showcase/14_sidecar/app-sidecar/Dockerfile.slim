@@ -1,11 +1,9 @@
 FROM eclipse-temurin:21.0.9_10-jdk-noble@sha256:4ae3c996117de6f25f8544cc4b173d7ca1e4de49b4a535f8dd50b9cd38ee4804 AS build
+
 WORKDIR /build
-COPY mvnw .
-COPY .mvn .mvn
-COPY pom.xml .
-RUN ./mvnw --no-transfer-progress --batch-mode org.apache.maven.plugins:maven-dependency-plugin:3.9.0:go-offline
-COPY src src
-RUN ./mvnw --offline -Dmaven.test.skip=true package
+COPY sidecar sidecar
+RUN javac sidecar/Sidecar.java
+RUN jar cfe sidecar.jar sidecar.Sidecar sidecar
 
 FROM eclipse-temurin:21.0.9_10-jdk-noble@sha256:4ae3c996117de6f25f8544cc4b173d7ca1e4de49b4a535f8dd50b9cd38ee4804 AS health
 
@@ -19,11 +17,11 @@ FROM gcr.io/distroless/java21-debian12:nonroot@sha256:5fc28363e84dec4db09b7df712
 USER root
 WORKDIR /app
 COPY --from=health --chmod=440 --chown=root:nonroot /build/health.jar health.jar
-COPY --from=build --chmod=440 --chown=root:nonroot /build/target/boot-web-maven-2.0.0.jar app.jar 
+COPY --from=build --chmod=440 --chown=root:nonroot /build/sidecar.jar sidecar.jar
 
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "java", "-cp", "health.jar", "health.Health" ]
 
 USER nonroot
 EXPOSE 8080
 
-CMD [ "app.jar" ]
+CMD [ "sidecar.jar" ]

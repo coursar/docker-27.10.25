@@ -24,27 +24,39 @@ spec:
       # - ip: "192.168.56.11"
       #   hostnames:
       #   - "db.local"
+      initContainers:
+      - name: init
+        image: docker.io/library/busybox
+        command: ["sh", "-c"]
+        args:
+        - |
+          echo "info.app.id=$(cat /proc/sys/kernel/random/uuid)">/app/config/application.properties
+          dd if=/dev/zero of=/app/config/zero bs=1M count=2000
+          ls -la /app/config
+        restartPolicy: Never
+        volumeMounts:
+        - name: generated-volume
+          mountPath: /app/config
+        resources:
+          limits:
+            memory: "1000Mi" # Mi, M
       containers:
       - name: app
-        image: registry.local:5000/library/app-boot:3.0.0
-        resources:
-          requests:
-            memory: "128Mi" # Mi, M
-            cpu: "500m" # m milli-cpu
-          limits:
-            memory: "256Mi" # Mi, M
-            cpu: "500m" # m milli-cpu
-        ports:
-          - containerPort: 8080
+        image: docker.io/library/busybox
+        command: ["sh", "-c"]
+        args:
+        - |
+          dd if=/app/config/zero of=/tmp/zero bs=1M count=2000
+          ls -la /tmp
+          sleep infinity
         volumeMounts:
-        - name: config-volume
-          mountPath: /app/application.properties
-          subPath: application.properties
+        - name: generated-volume
+          mountPath: /app/config
           readOnly: true
-        - name: secret-volume
-          mountPath: /app/configtree/spring.datasource.url
-          subPath: spring.datasource.url
-          readOnly: true
+        resources:
+          limits:
+            memory: "1000Mi" # Mi, M
+
       volumes:
       - name: config-volume
         configMap:
@@ -52,6 +64,10 @@ spec:
           items:
           - key: application.properties
             path: application.properties
+      - name: generated-volume
+        emptyDir:
+          medium: "Memory"
+          sizeLimit: 2001Mi
       - name: secret-volume
         secret:
           secretName: db-secret
@@ -71,4 +87,4 @@ spec:
   ports:
   - port: 8080
     targetPort: 8080
-  
+---  

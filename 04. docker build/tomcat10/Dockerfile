@@ -5,7 +5,7 @@ WORKDIR /opt/build
 COPY pom.xml .
 RUN mvn --no-transfer-progress --batch-mode dependency:go-offline
 COPY src src
-RUN mvn -B package
+RUN mvn --offline -Dmaven.test.skip=true package
 
 FROM tomcat:10.1.48-jdk17-temurin-noble@sha256:49c100b70d64a2169cb1df8292cef08904f7d5fdd5659e841a8c572ee3209274 AS release
 

@@ -26,7 +26,7 @@ spec:
         - "db.local"
       containers:
       - name: app
-        image: registry.local:5000/library/app-boot:3.0.0
+        image: registry.local:5000/library/app-boot:4.0.0
         resources:
           requests:
             memory: "2000Mi" # Mi, M

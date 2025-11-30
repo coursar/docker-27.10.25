@@ -5,7 +5,7 @@ COPY .mvn .mvn
 COPY pom.xml .
 RUN ./mvnw --no-transfer-progress --batch-mode org.apache.maven.plugins:maven-dependency-plugin:3.9.0:go-offline
 COPY src src
-RUN ./mvnw -Dmaven.test.skip=true package
+RUN ./mvnw --offline -Dmaven.test.skip=true package
 
 FROM eclipse-temurin:21.0.9_10-jdk-noble@sha256:4ae3c996117de6f25f8544cc4b173d7ca1e4de49b4a535f8dd50b9cd38ee4804 AS health
 

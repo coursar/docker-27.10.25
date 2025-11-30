@@ -1,0 +1,134 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  namespace: appns
+spec:
+  selector:
+    matchLabels:
+      app: app
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      name: app
+      labels:
+        app: app
+    spec:
+      # hostAliases:
+      # - ip: "192.168.56.11"
+      #   hostnames:
+      #   - "db.local"
+      initContainers:
+      - name: init
+        image: docker.io/library/busybox
+        command: ["sh", "-c"]
+        args:
+        - echo "info.app.id=$(cat /proc/sys/kernel/random/uuid)">/app/config/application.properties 
+        volumeMounts:
+        - name: generated-volume
+          mountPath: /app/config
+      - name: sidecar
+        image: registry.local:5000/library/app-sidecar:5.0.0
+        restartPolicy: Always
+        imagePullPolicy: Always
+        ports:
+        - name: sidecar-port
+          containerPort: 9999
+        livenessProbe:
+          httpGet:
+            path: /
+            port: sidecar-port
+          failureThreshold: 3
+          initialDelaySeconds: 10 
+          periodSeconds: 5
+          timeoutSeconds: 5
+      containers:
+      - name: app
+        image: registry.local:5000/library/app-boot:5.0.0
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "2000Mi" # Mi, M
+            cpu: "2000m" # m milli-cpu
+          limits:
+            memory: "2000Mi" # Mi, M
+        ports:
+        - name: app-port
+          containerPort: 8080
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/application.properties
+          subPath: application.properties
+          readOnly: true
+        - name: generated-volume
+          mountPath: /app/config/application.properties
+          subPath: application.properties
+          readOnly: true
+        - name: secret-volume
+          mountPath: /app/configtree/spring.datasource.url
+          subPath: spring.datasource.url
+          readOnly: true
+        env:
+        - name: JAVA_TOOL_OPTIONS
+          value: '-XX:+PrintFlagsFinal'
+        startupProbe:
+          httpGet:
+            path: /actuator/health
+            port: app-port
+          failureThreshold: 3
+          initialDelaySeconds: 30
+          periodSeconds: 10 
+          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: app-port
+          failureThreshold: 3
+          initialDelaySeconds: 10 
+          periodSeconds: 5
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: app-port
+          failureThreshold: 3
+          initialDelaySeconds: 10 
+          periodSeconds: 5
+          timeoutSeconds: 5
+      volumes:
+      - name: config-volume
+        configMap:
+          name: app-config
+          items:
+          - key: application.properties
+            path: application.properties
+      - name: generated-volume
+        emptyDir:
+          medium: "Memory"
+          sizeLimit: 1Mi
+      - name: secret-volume
+        secret:
+          secretName: db-secret
+          items:
+          - key: spring.datasource.url
+            path: spring.datasource.url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+  namespace: appns
+spec:
+  type: ClusterIP
+  selector:
+    app: app
+  ports:
+  - port: 8080
+    targetPort: 8080
+---  

@@ -1,0 +1,60 @@
+services:
+  init:
+    image: docker.io/library/busybox
+    command:
+      - sh
+      - -c
+      - |
+        echo "info.app.id=$(cat /proc/sys/kernel/random/uuid)">/app/config/application.properties
+        ls -la /app/config
+        cat /app/config/application.properties
+    volumes:
+      - type: volume
+        source: generated-volume
+        target: /app/config
+  app:
+    image: registry.local:5000/library/app-boot:5.0.0
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      db:
+        condition: service_healthy
+    ports:
+      - '8080:8080'
+    secrets:
+      # mapped to /run/secrets/spring.datasource.url
+      - spring.datasource.url
+    volumes:
+      - type: volume
+        source: generated-volume
+        target: /app/config/application.properties
+        read_only: true
+        volume:
+          subpath: application.properties
+  db:
+    image: postgres:18.0-alpine3.22
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d db"]
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+    environment:
+      - POSTGRES_DB=db
+      - POSTGRES_USER_FILE=/run/secrets/db_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db_pass
+    command: ["postgres", "-c", "log_statement=all"]
+    secrets:
+      - db_user
+      - db_pass
+
+secrets:
+   db_user:
+     file: ./secrets/db_user
+   db_pass:
+     file: ./secrets/db_pass
+   spring.datasource.url:
+     file: ./secrets/spring.datasource.url
+
+volumes:
+  generated-volume: {}

@@ -26,16 +26,17 @@ spec:
       #   - "db.local"
       containers:
       - name: app
-        image: registry.local:5000/library/app-boot:3.0.0
+        image: registry.local:5000/library/app-boot:5.0.0
+        imagePullPolicy: Always
         resources:
           requests:
-            memory: "128Mi" # Mi, M
-            cpu: "500m" # m milli-cpu
+            memory: "2000Mi" # Mi, M
+            cpu: "2000m" # m milli-cpu
           limits:
-            memory: "256Mi" # Mi, M
-            cpu: "500m" # m milli-cpu
+            memory: "2000Mi" # Mi, M
         ports:
-          - containerPort: 8080
+        - name: app-port
+          containerPort: 8080
         volumeMounts:
         - name: config-volume
           mountPath: /app/application.properties
@@ -45,6 +46,33 @@ spec:
           mountPath: /app/configtree/spring.datasource.url
           subPath: spring.datasource.url
           readOnly: true
+        env:
+        - name: JAVA_TOOL_OPTIONS
+          value: '-XX:+PrintFlagsFinal'
+        startupProbe:
+          httpGet:
+            path: /actuator/health
+            port: app-port
+          failureThreshold: 3
+          initialDelaySeconds: 30
+          periodSeconds: 10 
+          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: app-port
+          failureThreshold: 3
+          initialDelaySeconds: 10 
+          periodSeconds: 5
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: app-port
+          failureThreshold: 3
+          initialDelaySeconds: 10 
+          periodSeconds: 5
+          timeoutSeconds: 5
       volumes:
       - name: config-volume
         configMap:
@@ -71,4 +99,4 @@ spec:
   ports:
   - port: 8080
     targetPort: 8080
-  
+---  

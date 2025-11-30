@@ -1,0 +1,11 @@
+# kubectl -n appns create cm app-config --from-file=application.properties=application.properties --dry-run=client -o yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: appns
+data:
+  application.properties: |-
+    management.info.env.enabled=true
+    logging.level.org.springframework.web.filter.CommonsRequestLoggingFilter=DEBUG
+    spring.config.import=optional:configtree:/app/configtree/
