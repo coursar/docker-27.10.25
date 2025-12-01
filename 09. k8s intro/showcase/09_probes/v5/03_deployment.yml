@@ -20,20 +20,20 @@ spec:
       labels:
         app: app
     spec:
-      # hostAliases:
-      # - ip: "192.168.56.11"
-      #   hostnames:
-      #   - "db.local"
+      hostAliases:
+      - ip: "192.168.56.11"
+        hostnames:
+        - "db.local"
       containers:
       - name: app
         image: registry.local:5000/library/app-boot:5.0.0
         imagePullPolicy: Always
         resources:
           requests:
-            memory: "2000Mi" # Mi, M
-            cpu: "2000m" # m milli-cpu
+            memory: "1000Mi" # Mi, M
+            cpu: "1000m" # m milli-cpu
           limits:
-            memory: "2000Mi" # Mi, M
+            memory: "1000Mi" # Mi, M
         ports:
         - name: app-port
           containerPort: 8080
@@ -49,7 +49,7 @@ spec:
         env:
         - name: JAVA_TOOL_OPTIONS
           value: '-XX:+PrintFlagsFinal'
-        startupProbe:
+        startupProbe: # not best practice
           httpGet:
             path: /actuator/health
             port: app-port

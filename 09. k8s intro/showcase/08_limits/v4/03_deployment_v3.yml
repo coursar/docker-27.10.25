@@ -29,12 +29,15 @@ spec:
         image: registry.local:5000/library/app-boot:4.0.0
         resources:
           requests:
-            memory: "2000Mi" # Mi, M
-            cpu: "2000m" # m milli-cpu
+            memory: "1000Mi" # Mi, M
+            cpu: "1000m" # m milli-cpu
           limits:
-            memory: "2000Mi" # Mi, M
+            memory: "1000Mi" # Mi, M
         ports:
           - containerPort: 8080
+          #env:
+          #- name: JAVA_TOOL_OPTIONS
+          #  value: '-XX:+PrintFlagsFinal -XX:ActiveProcessorCount=1'
         volumeMounts:
         - name: config-volume
           mountPath: /app/application.properties

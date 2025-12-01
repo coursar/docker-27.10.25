@@ -20,10 +20,10 @@ spec:
       labels:
         app: app
     spec:
-      # hostAliases:
-      # - ip: "192.168.56.11"
-      #   hostnames:
-      #   - "db.local"
+      hostAliases:
+      - ip: "192.168.56.11"
+        hostnames:
+        - "db.local"
       initContainers:
       - name: init
         image: docker.io/library/busybox
@@ -31,7 +31,7 @@ spec:
         args:
         - |
           echo "info.app.id=$(cat /proc/sys/kernel/random/uuid)">/app/config/application.properties
-          dd if=/dev/zero of=/app/config/zero bs=1M count=2000
+          dd if=/dev/zero of=/app/config/zero bs=1M count=1500
           ls -la /app/config
         restartPolicy: Never
         volumeMounts:
@@ -39,7 +39,7 @@ spec:
           mountPath: /app/config
         resources:
           limits:
-            memory: "1000Mi" # Mi, M
+            memory: "2000Mi" # Mi, M
       containers:
       - name: app
         image: docker.io/library/busybox

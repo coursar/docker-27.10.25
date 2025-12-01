@@ -20,10 +20,10 @@ spec:
       labels:
         app: app
     spec:
-      # hostAliases:
-      # - ip: "192.168.56.11"
-      #   hostnames:
-      #   - "db.local"
+      hostAliases:
+      - ip: "192.168.56.11"
+        hostnames:
+        - "db.local"
       initContainers:
       - name: init
         image: docker.io/library/busybox
