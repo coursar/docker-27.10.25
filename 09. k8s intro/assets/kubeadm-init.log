@@ -1,0 +1,246 @@
+ initconfiguration.go:122] detected and using CRI socket: unix:///var/run/containerd/containerd.sock
+ kubelet.go:195] the value of KubeletConfiguration.cgroupDriver is empty; setting it to "systemd"
+ version.go:191] fetching Kubernetes version from URL: https://dl.k8s.io/release/stable-1.txt
+[init] Using Kubernetes version: v1.34.2
+[preflight] Running pre-flight checks
+ checks.go:542] validating Kubernetes and kubeadm version
+ checks.go:150] validating if the firewall is enabled and active
+ checks.go:185] validating availability of port 6443
+ checks.go:185] validating availability of port 10259
+ checks.go:185] validating availability of port 10257
+ checks.go:262] validating the existence of file /etc/kubernetes/manifests/kube-apiserver.yaml
+ checks.go:262] validating the existence of file /etc/kubernetes/manifests/kube-controller-manager.yaml
+ checks.go:262] validating the existence of file /etc/kubernetes/manifests/kube-scheduler.yaml
+ checks.go:262] validating the existence of file /etc/kubernetes/manifests/etcd.yaml
+ checks.go:412] validating if the connectivity type is via proxy or direct
+ checks.go:451] validating http connectivity to first IP address in the CIDR
+ checks.go:451] validating http connectivity to first IP address in the CIDR
+ checks.go:86] validating the container runtime
+ checks.go:618] validating whether swap is enabled or not
+ checks.go:352] validating the presence of executable losetup
+ checks.go:352] validating the presence of executable mount
+ checks.go:352] validating the presence of executable cp
+ checks.go:495] running all checks
+ checks.go:383] checking whether the given node name is valid and reachable using net.LookupHost
+ checks.go:584] validating kubelet version
+ checks.go:112] validating if the "kubelet" service is enabled and active
+ checks.go:185] validating availability of port 10250
+ checks.go:311] validating the contents of file /proc/sys/net/ipv4/ip_forward
+ checks.go:185] validating availability of port 2379
+ checks.go:185] validating availability of port 2380
+ checks.go:225] validating the existence and emptiness of directory /var/lib/etcd
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your internet connection
+[preflight] You can also perform this action beforehand using 'kubeadm config images pull'
+ checks.go:813] using image pull policy: IfNotPresent
+ checks.go:825] failed to detect the sandbox image for local container runtime, no 'sandboxImage' field in CRI info config
+ checks.go:844] image exists: registry.k8s.io/kube-apiserver:v1.34.2
+ checks.go:844] image exists: registry.k8s.io/kube-controller-manager:v1.34.2
+ checks.go:844] image exists: registry.k8s.io/kube-scheduler:v1.34.2
+ checks.go:844] image exists: registry.k8s.io/kube-proxy:v1.34.2
+ checks.go:844] image exists: registry.k8s.io/coredns/coredns:v1.12.1
+ checks.go:844] image exists: registry.k8s.io/pause:3.10.1
+ checks.go:844] image exists: registry.k8s.io/etcd:3.6.5-0
+[certs] Using certificateDir folder "/etc/kubernetes/pki"
+ certs.go:111] creating a new certificate authority for ca
+[certs] Generating "ca" certificate and key
+ certs.go:472] validating certificate period for ca certificate
+[certs] Generating "apiserver" certificate and key
+[certs] apiserver serving cert is signed for DNS names [dock01 kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 192.168.56.11]
+[certs] Generating "apiserver-kubelet-client" certificate and key
+ certs.go:111] creating a new certificate authority for front-proxy-ca
+[certs] Generating "front-proxy-ca" certificate and key
+ certs.go:472] validating certificate period for front-proxy-ca certificate
+[certs] Generating "front-proxy-client" certificate and key
+ certs.go:111] creating a new certificate authority for etcd-ca
+[certs] Generating "etcd/ca" certificate and key
+ certs.go:472] validating certificate period for etcd/ca certificate
+[certs] Generating "etcd/server" certificate and key
+[certs] etcd/server serving cert is signed for DNS names [dock01 localhost] and IPs [192.168.56.11 127.0.0.1 ::1]
+[certs] Generating "etcd/peer" certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [dock01 localhost] and IPs [192.168.56.11 127.0.0.1 ::1]
+[certs] Generating "etcd/healthcheck-client" certificate and key
+[certs] Generating "apiserver-etcd-client" certificate and key
+ certs.go:77] creating new public/private key files for signing service account users
+[certs] Generating "sa" key and public key
+[kubeconfig] Using kubeconfig folder "/etc/kubernetes"
+ kubeconfig.go:111] creating kubeconfig file for admin.conf
+[kubeconfig] Writing "admin.conf" kubeconfig file
+ kubeconfig.go:111] creating kubeconfig file for super-admin.conf
+[kubeconfig] Writing "super-admin.conf" kubeconfig file
+ kubeconfig.go:111] creating kubeconfig file for kubelet.conf
+[kubeconfig] Writing "kubelet.conf" kubeconfig file
+ kubeconfig.go:111] creating kubeconfig file for controller-manager.conf
+[kubeconfig] Writing "controller-manager.conf" kubeconfig file
+ kubeconfig.go:111] creating kubeconfig file for scheduler.conf
+[kubeconfig] Writing "scheduler.conf" kubeconfig file
+[etcd] Creating static Pod manifest for local etcd in "/etc/kubernetes/manifests"
+ local.go:67] [etcd] wrote Static Pod manifest for a local etcd member to "/etc/kubernetes/manifests/etcd.yaml"
+[control-plane] Using manifest folder "/etc/kubernetes/manifests"
+[control-plane] Creating static Pod manifest for "kube-apiserver"
+ manifests.go:125] [control-plane] getting StaticPodSpecs
+ certs.go:472] validating certificate period for CA certificate
+ manifests.go:151] [control-plane] adding volume "ca-certs" for component "kube-apiserver"
+ manifests.go:151] [control-plane] adding volume "etc-ca-certificates" for component "kube-apiserver"
+ manifests.go:151] [control-plane] adding volume "k8s-certs" for component "kube-apiserver"
+ manifests.go:151] [control-plane] adding volume "usr-local-share-ca-certificates" for component "kube-apiserver"
+ manifests.go:151] [control-plane] adding volume "usr-share-ca-certificates" for component "kube-apiserver"
+ manifests.go:180] [control-plane] wrote static Pod manifest for component "kube-apiserver" to "/etc/kubernetes/manifests/kube-apiserver.yaml"
+[control-plane] Creating static Pod manifest for "kube-controller-manager"
+ manifests.go:125] [control-plane] getting StaticPodSpecs
+ manifests.go:151] [control-plane] adding volume "ca-certs" for component "kube-controller-manager"
+ manifests.go:151] [control-plane] adding volume "etc-ca-certificates" for component "kube-controller-manager"
+ manifests.go:151] [control-plane] adding volume "flexvolume-dir" for component "kube-controller-manager"
+ manifests.go:151] [control-plane] adding volume "k8s-certs" for component "kube-controller-manager"
+ manifests.go:151] [control-plane] adding volume "kubeconfig" for component "kube-controller-manager"
+ manifests.go:151] [control-plane] adding volume "usr-local-share-ca-certificates" for component "kube-controller-manager"
+ manifests.go:151] [control-plane] adding volume "usr-share-ca-certificates" for component "kube-controller-manager"
+ manifests.go:180] [control-plane] wrote static Pod manifest for component "kube-controller-manager" to "/etc/kubernetes/manifests/kube-controller-manager.yaml"
+[control-plane] Creating static Pod manifest for "kube-scheduler"
+ manifests.go:125] [control-plane] getting StaticPodSpecs
+ manifests.go:151] [control-plane] adding volume "kubeconfig" for component "kube-scheduler"
+ manifests.go:180] [control-plane] wrote static Pod manifest for component "kube-scheduler" to "/etc/kubernetes/manifests/kube-scheduler.yaml"
+ kubelet.go:69] Stopping the kubelet
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/instance-config.yaml"
+[patches] Applied patch of type "application/strategic-merge-patch+json" to target "kubeletconfiguration"
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Starting the kubelet
+ loader.go:402] Config loaded from file:  /etc/kubernetes/admin.conf
+ envvar.go:172] "Feature gate default state" feature="InformerResourceVersion" enabled=false
+ envvar.go:172] "Feature gate default state" feature="WatchListClient" enabled=false
+ envvar.go:172] "Feature gate default state" feature="ClientsAllowCBOR" enabled=false
+ envvar.go:172] "Feature gate default state" feature="ClientsPreferCBOR" enabled=false
+ envvar.go:172] "Feature gate default state" feature="InOrderInformers" enabled=true
+[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests"
+[kubelet-check] Waiting for a healthy kubelet at http://127.0.0.1:10248/healthz. This can take up to 4m0s
+[kubelet-check] The kubelet is healthy after 4.503105757s
+[control-plane-check] Waiting for healthy control plane components. This can take up to 4m0s
+[control-plane-check] Checking kube-apiserver at https://192.168.56.11:6443/livez
+[control-plane-check] Checking kube-controller-manager at https://127.0.0.1:10257/healthz
+[control-plane-check] Checking kube-scheduler at https://127.0.0.1:10259/livez
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="" milliseconds=0
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="" milliseconds=0
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="" milliseconds=6
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="" milliseconds=0
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="" milliseconds=6
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="" milliseconds=40
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="" milliseconds=0
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="" milliseconds=0
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="" milliseconds=0
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="" milliseconds=0
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="" milliseconds=10005
+[control-plane-check] kube-controller-manager is healthy after 16.863875612s
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="403 Forbidden" milliseconds=6209
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="403 Forbidden" milliseconds=63
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="403 Forbidden" milliseconds=176
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="403 Forbidden" milliseconds=77
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="403 Forbidden" milliseconds=418
+[control-plane-check] kube-scheduler is healthy after 23.17442898s
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="403 Forbidden" milliseconds=572
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="403 Forbidden" milliseconds=77
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="403 Forbidden" milliseconds=299
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="403 Forbidden" milliseconds=281
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="403 Forbidden" milliseconds=35
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="403 Forbidden" milliseconds=12
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="403 Forbidden" milliseconds=2
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="403 Forbidden" milliseconds=35
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="403 Forbidden" milliseconds=4
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="403 Forbidden" milliseconds=5
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="403 Forbidden" milliseconds=4
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="403 Forbidden" milliseconds=1
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="500 Internal Server Error" milliseconds=6
+ request.go:1500] "Body was not decodable (unable to check for Status)" err="couldn't get version/kind; json parse error: json: cannot unmarshal array into Go value of type struct { APIVersion string \"json:\\\"apiVersion,omitempty\\\"\"; Kind string \"json:\\\"kind,omitempty\\\"\" }"
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="500 Internal Server Error" milliseconds=12
+ request.go:1500] "Body was not decodable (unable to check for Status)" err="couldn't get version/kind; json parse error: json: cannot unmarshal array into Go value of type struct { APIVersion string \"json:\\\"apiVersion,omitempty\\\"\"; Kind string \"json:\\\"kind,omitempty\\\"\" }"
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="500 Internal Server Error" milliseconds=1
+ request.go:1500] "Body was not decodable (unable to check for Status)" err="couldn't get version/kind; json parse error: json: cannot unmarshal array into Go value of type struct { APIVersion string \"json:\\\"apiVersion,omitempty\\\"\"; Kind string \"json:\\\"kind,omitempty\\\"\" }"
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="500 Internal Server Error" milliseconds=4
+ request.go:1500] "Body was not decodable (unable to check for Status)" err="couldn't get version/kind; json parse error: json: cannot unmarshal array into Go value of type struct { APIVersion string \"json:\\\"apiVersion,omitempty\\\"\"; Kind string \"json:\\\"kind,omitempty\\\"\" }"
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/livez?timeout=10s" status="200 OK" milliseconds=7
+[control-plane-check] kube-apiserver is healthy after 31.008119891s
+ loader.go:402] Config loaded from file:  /etc/kubernetes/admin.conf
+ loader.go:402] Config loaded from file:  /etc/kubernetes/super-admin.conf
+ kubeconfig.go:657] ensuring that the ClusterRoleBinding for the kubeadm:cluster-admins Group exists
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s" status="403 Forbidden" milliseconds=5
+ kubeconfig.go:730] creating the ClusterRoleBinding for the kubeadm:cluster-admins Group by using super-admin.conf
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s" status="201 Created" milliseconds=78
+ uploadconfig.go:111] [upload-config] Uploading the kubeadm ClusterConfiguration to a ConfigMap
+[upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s" status="201 Created" milliseconds=51
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles?timeout=10s" status="201 Created" milliseconds=39
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/rolebindings?timeout=10s" status="201 Created" milliseconds=40
+ uploadconfig.go:125] [upload-config] Uploading the kubelet component config to a ConfigMap
+[kubelet] Creating a ConfigMap "kubelet-config" in namespace kube-system with the configuration for the kubelets in the cluster
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s" status="201 Created" milliseconds=77
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles?timeout=10s" status="201 Created" milliseconds=31
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/rolebindings?timeout=10s" status="201 Created" milliseconds=40
+[upload-certs] Skipping phase. Please see --upload-certs
+[mark-control-plane] Marking the node dock01 as control-plane by adding the labels: [node-role.kubernetes.io/control-plane node.kubernetes.io/exclude-from-external-load-balancers]
+[mark-control-plane] Marking the node dock01 as control-plane by adding the taints [node-role.kubernetes.io/control-plane:NoSchedule]
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/api/v1/nodes/dock01?timeout=10s" status="200 OK" milliseconds=28
+ round_trippers.go:632] "Response" verb="PATCH" url="https://192.168.56.11:6443/api/v1/nodes/dock01?timeout=10s" status="200 OK" milliseconds=62
+ loader.go:402] Config loaded from file:  /etc/kubernetes/admin.conf
+[bootstrap-token] Using token: wwsm7t.h1suh60sls0gybkk
+[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/api/v1/namespaces/kube-system/secrets/bootstrap-token-wwsm7t?timeout=10s" status="404 Not Found" milliseconds=46
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/api/v1/namespaces/kube-system/secrets?timeout=10s" status="201 Created" milliseconds=56
+[bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to get nodes
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/clusterroles?timeout=10s" status="201 Created" milliseconds=180
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s" status="201 Created" milliseconds=68
+[bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s" status="201 Created" milliseconds=90
+[bootstrap-token] Configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s" status="201 Created" milliseconds=36
+[bootstrap-token] Configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s" status="201 Created" milliseconds=96
+[bootstrap-token] Creating the "cluster-info" ConfigMap in the "kube-public" namespace
+ clusterinfo.go:58] [bootstrap-token] copying the cluster from admin.conf to the bootstrap kubeconfig
+ clusterinfo.go:70] [bootstrap-token] creating/updating ConfigMap in kube-public namespace
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/api/v1/namespaces/kube-public/configmaps?timeout=10s" status="201 Created" milliseconds=97
+ clusterinfo.go:84] creating the RBAC rules for exposing the cluster-info ConfigMap in the kube-public namespace
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-public/roles?timeout=10s" status="201 Created" milliseconds=128
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-public/rolebindings?timeout=10s" status="201 Created" milliseconds=99
+ kubeletfinalize.go:90] [kubelet-finalize] Assuming that kubelet client certificate rotation is enabled: found "/var/lib/kubelet/pki/kubelet-client-current.pem"
+[kubelet-finalize] Updating "/etc/kubernetes/kubelet.conf" to point to a rotatable kubelet client certificate and key
+ loader.go:402] Config loaded from file:  /etc/kubernetes/kubelet.conf
+ kubeletfinalize.go:144] [kubelet-finalize] Restarting the kubelet to enable client certificate rotation
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/apis/apps/v1/namespaces/kube-system/deployments?labelSelector=k8s-app%3Dkube-dns" status="200 OK" milliseconds=54
+ round_trippers.go:632] "Response" verb="GET" url="https://192.168.56.11:6443/api/v1/namespaces/kube-system/configmaps/coredns?timeout=10s" status="404 Not Found" milliseconds=43
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s" status="201 Created" milliseconds=164
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/clusterroles?timeout=10s" status="201 Created" milliseconds=88
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s" status="201 Created" milliseconds=17
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/api/v1/namespaces/kube-system/serviceaccounts?timeout=10s" status="201 Created" milliseconds=23
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/apps/v1/namespaces/kube-system/deployments?timeout=10s" status="201 Created" milliseconds=26
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/api/v1/namespaces/kube-system/services?timeout=10s" status="201 Created" milliseconds=180
+[addons] Applied essential addon: CoreDNS
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s" status="201 Created" milliseconds=44
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/apps/v1/namespaces/kube-system/daemonsets?timeout=10s" status="201 Created" milliseconds=154
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/api/v1/namespaces/kube-system/serviceaccounts?timeout=10s" status="201 Created" milliseconds=78
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s" status="201 Created" milliseconds=58
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles?timeout=10s" status="201 Created" milliseconds=38
+ round_trippers.go:632] "Response" verb="POST" url="https://192.168.56.11:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/rolebindings?timeout=10s" status="201 Created" milliseconds=43
+[addons] Applied essential addon: kube-proxy
+ loader.go:402] Config loaded from file:  /etc/kubernetes/admin.conf
+ loader.go:402] Config loaded from file:  /etc/kubernetes/admin.conf
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 192.168.56.11:6443 --token wwsm7t.h1suh60sls0gybkk \
+	--discovery-token-ca-cert-hash sha256:9873b2a76fbb8fbe8b94eba7d9dc31d07d80a5b1a23d740da47140903fee4af2 
